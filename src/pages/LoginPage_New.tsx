@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, Crown, Shield } from 'lucide-react';
-// TODO: Import GoogleLogin when OAuth is configured
-// import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
-interface LoginPageProps {}
-
-const LoginPage: React.FC<LoginPageProps> = () => {
+const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +14,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   
   const { 
     login, 
-    // loginWithGoogle, // TODO: Uncomment when Google OAuth is configured
+    loginWithGoogle, 
     isAuthenticated, 
     needsOtpVerification 
   } = useAuth();
@@ -64,9 +61,8 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const handleDemoLogin = async (credentials: { email: string; password: string }) => {
     setEmail(credentials.email);
     setPassword(credentials.password);
-    // Auto-submit the form
     setTimeout(() => {
-      handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+      handleSubmit({ preventDefault: () => { void 0; } } as React.FormEvent);
     }, 100);
   };
 
@@ -249,12 +245,19 @@ const LoginPage: React.FC<LoginPageProps> = () => {
                 </div>
               </div>
               <div className="mt-6 grid grid-cols-1 gap-3">
-                {/* Google Login Button - Placeholder */}
                 <div className="flex justify-center">
-                  {/* TODO: Add Google Login when OAuth credentials are configured */}
-                  <div className="px-4 py-2 bg-gray-200 rounded-full text-gray-500 text-sm opacity-50 cursor-not-allowed">
-                    Sign in with Google (Coming Soon)
-                  </div>
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      if (credentialResponse.credential) {
+                        loginWithGoogle(credentialResponse.credential).catch((err: any) => {
+                          setError(err.message || 'Google sign in failed');
+                        });
+                      }
+                    }}
+                    onError={() => {
+                      setError('Google sign in failed');
+                    }}
+                  />
                 </div>
                 
                 {/* Demo Account Button */}

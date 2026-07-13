@@ -1,6 +1,6 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Users, Settings, Bell, Search, Plus, Menu, X, LogOut, MessageSquare, BarChart3, BookOpen, BrainCircuit, User, ChevronRight, ChevronLeft, Moon, Sun, Sparkles, LayoutDashboard, Briefcase, FileText, Receipt, AlertCircle, Calculator, TrendingUp, Mail, ShoppingBag } from 'lucide-react';
+import { Users, Settings, Bell, Search, Plus, Menu, X, LogOut, MessageSquare, BarChart3, BookOpen, BrainCircuit, User, ChevronRight, ChevronLeft, Moon, Sun, Sparkles, LayoutDashboard, Briefcase, FileText, Receipt, AlertCircle, Calculator, TrendingUp, Mail, ShoppingBag, Image } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../components/ui/ThemeProvider';
 import DashboardOverview from '../components/dashboard/DashboardOverview';
@@ -18,6 +18,7 @@ import ExpenseAnalytics from '../components/dashboard/ExpenseAnalytics';
 import OfferManagement from '../components/dashboard/OfferManagement';
 import CreateOffer from '../components/dashboard/CreateOffer';
 import PurchaseManagement from '../components/dashboard/PurchaseManagement';
+import GalleryManagement from '../components/dashboard/GalleryManagement';
 const DashboardPage = () => {
   const {
     user,
@@ -104,6 +105,10 @@ const DashboardPage = () => {
     href: '/dashboard/offers/create',
     icon: FileText
   }, {
+    name: 'Gallery Management',
+    href: '/dashboard/gallery',
+    icon: Image
+  }, {
     name: 'Settings',
     href: '/dashboard/settings',
     icon: Settings
@@ -125,11 +130,15 @@ const DashboardPage = () => {
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           ${sidebarCollapsed ? 'w-20' : 'w-64'}
         `}>
-      {/* Sidebar header */}
       <div className="flex items-center justify-between h-16 px-4 bg-blue-700 dark:bg-blue-900 text-white">
         <div className="flex items-center">
-          {!sidebarCollapsed && <span className="text-xl font-bold">Parmy Technologies</span>}
-          {sidebarCollapsed && <Sparkles className="h-7 w-7" />}
+           <img
+    src="/logomini.png"
+    alt="Parmy Technologies Logo"
+    className={`object-contain transition-all duration-300 ${
+      sidebarCollapsed ? "w-10 h-10" : "w-10 h-10"
+    }`}
+  />
         </div>
         <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} className="hidden lg:block p-1 rounded-md hover:bg-blue-600 dark:hover:bg-blue-800 transition-colors">
           {sidebarCollapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
@@ -139,7 +148,6 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      {/* Sidebar content */}
       <div className="flex-1 flex flex-col overflow-y-auto bg-blue-600 dark:bg-blue-800">
         <nav className="flex-1 px-2 py-4 space-y-1">
           {navigation.map(item => {
@@ -156,7 +164,6 @@ const DashboardPage = () => {
           })}
         </nav>
 
-        {/* Sidebar footer */}
         <div className="p-4 border-t border-blue-700 dark:border-blue-900">
           <div className="flex items-center">
             <div className="flex-shrink-0">
@@ -180,55 +187,62 @@ const DashboardPage = () => {
       {/* Top navbar */}
       <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 z-10">
         <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center">
+          {/* Left section: Title */}
+          <div className="flex items-center w-1/4">
             <button type="button" className="lg:hidden text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none" onClick={() => setSidebarOpen(true)}>
               <Menu className="h-6 w-6" />
             </button>
-            <div className="ml-4">
+             <div className="ml-4">
               <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 {navigation.find(item => item.href === location.pathname)?.name || 'Dashboard'}
               </h1>
-            </div>
+            </div> 
           </div>
-          <div className="flex items-center space-x-4">
-            {/* Search */}
-            <form onSubmit={handleSearch} className="hidden md:block">
+
+          {/* Center section: Search Bar */}
+          <div className="flex-1 flex justify-center">
+            <form onSubmit={handleSearch} className="hidden md:block w-full max-w-md">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-4 w-4 text-gray-400" />
                 </div>
-                <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 pr-3 py-2 w-64 text-sm bg-gray-100 dark:bg-gray-700 border-0 rounded-md focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600" />
+                <input 
+                  type="text" 
+                  placeholder="Search..." 
+                  value={searchQuery} 
+                  onChange={e => setSearchQuery(e.target.value)} 
+                  className="pl-10 pr-3 py-2 w-full text-sm bg-gray-100 dark:bg-gray-700 border-0 rounded-md focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-600 text-black dark:text-white" 
+                />
               </div>
             </form>
+          </div>
 
-            {/* Theme toggle */}
-            <button onClick={() => {
+          {/* Right section: Spacer and commented buttons */}
+          <div className="flex items-center justify-end w-1/4 space-x-4">
+            {/* <button onClick={() => {
               setTheme(theme === 'light' ? 'dark' : 'light');
             }} className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors" aria-label="Toggle theme">
               {theme === 'light' && <Sun className="h-5 w-5" />}
               {theme === 'dark' && <Moon className="h-5 w-5" />}
-            </button>
+            </button> */}
 
-            {/* Quick actions */}
-            <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors">
+            {/* <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors">
               <Plus className="h-6 w-6" />
-            </button>
+            </button> */}
 
-            {/* Notifications */}
-            <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors relative">
+            {/* <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors relative">
               <Bell className="h-6 w-6" />
               {notifications > 0 && <span className="absolute top-0 right-0 h-4 w-4 text-xs flex items-center justify-center rounded-full bg-red-500 text-white">
                 {notifications}
               </span>}
-            </button>
+            </button> */}
 
-            {/* Messages */}
-            <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors relative">
+            {/* <button className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors relative">
               <MessageSquare className="h-6 w-6" />
               {messages > 0 && <span className="absolute top-0 right-0 h-4 w-4 text-xs flex items-center justify-center rounded-full bg-blue-500 text-white">
                 {messages}
               </span>}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -261,6 +275,7 @@ const DashboardPage = () => {
                 <Route path="/expenses/analytics" element={<ExpenseAnalytics />} />
                 <Route path="/offers" element={<OfferManagement />} />
                 <Route path="/offers/create" element={<CreateOffer />} />
+                <Route path="/gallery" element={<GalleryManagement />} />
               </>
             ) : (
               <>

@@ -135,15 +135,15 @@ const AboutPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Director & CEO - Paramesh Godugu */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up">
-              <div className="aspect-w-1 aspect-h-1 bg-gray-700">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up h-full flex flex-col min-h-[520px]">
+              <div className="aspect-square bg-gray-700 overflow-hidden">
                 <img
-                  src="/public/ceo.jpeg"
+                  src="/ceo.png"
                   alt="Director & CEO"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex-1">
                 <h3 className="text-lg font-bold text-white">
                   Paramesh Godugu
                 </h3>
@@ -159,49 +159,45 @@ const AboutPage: React.FC = () => {
             </div>
 
             {/* CTO */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up animation-delay-100">
-              <div className="aspect-w-1 aspect-h-1 bg-gray-700">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up animation-delay-100 h-full flex flex-col min-h-[520px]">
+              <div className="aspect-square bg-gray-700 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-                  alt="CTO"
+                  src="/Nikhil_Duth_Dosakayala.jpg.jpeg"
+                  alt="Nikhil Duth"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex-1">
                 <h3 className="text-lg font-bold text-white">
-                  Nikhil Yerra
+                  Nikhil Duth D
                 </h3>
                 <p className="text-secondary-400 font-medium mb-3">
-                  Chief Technology Officer
+                  CTO, SOC Analyst
                 </p>
                 <p className="text-gray-300 text-sm">
-                  A recognized expert in AI and cloud computing, Nikhil leads our
-                  technology strategy and innovation initiatives, ensuring we
-                  remain at the cutting edge of digital transformation.
+                  Nikhil Duth is a dedicated <strong>SOC Analyst</strong> specializing in <strong>cybersecurity monitoring, threat detection, incident response, and security event analysis</strong>
                 </p>
               </div>
             </div>
 
             {/* COO */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up animation-delay-200">
-              <div className="aspect-w-1 aspect-h-1 bg-gray-700">
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in-up animation-delay-200 h-full flex flex-col min-h-[520px]">
+              <div className="aspect-square bg-gray-700 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-                  alt="COO"
+                  src="\Anand.png"
+                  alt="Ushaswi Samala"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex-1">
                 <h3 className="text-lg font-bold text-white">
-                  Ushaswi Samala
+                  Anand Ankilla
                 </h3>
                 <p className="text-secondary-400 font-medium mb-3">
-                  Chief Operations Officer
+                  Senior Software Engineer
                 </p>
                 <p className="text-gray-300 text-sm">
-                  Ushaswi oversees our global operations, ensuring efficient
-                  delivery of services to clients while maintaining our high
-                  standards of quality and excellence.
+                 Anand Ankilla is a skilled Python Full Stack Developer specializing in web development, backend systems, APIs, database integration, and modern UI development. 
                 </p>
               </div>
             </div>

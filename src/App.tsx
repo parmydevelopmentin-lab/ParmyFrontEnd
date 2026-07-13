@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './components/ui/ThemeProvider';
 import Header from './components/layout/Header';
@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import AboutPage from './pages/AboutPage_New';
 import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/LoginPage_New';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
@@ -27,6 +27,7 @@ import GalleryPage from './pages/GalleryPage';
 import CoursesPage from './pages/CoursesPage';
 
 import FloatingSocials from './components/ui/FloatingSocials';
+import EnquiryPanel from './components/ui/EnquiryPanel';
 import './styles/animations.css';
 
 // TODO: Add Google OAuth Client ID when ready
@@ -36,46 +37,56 @@ const GOOGLE_CLIENT_ID = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || '';
 // Otherwise Google OAuth components will be hidden.
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+function AppContent() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      {!isDashboard && <Header />}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/verify-otp" element={<OtpVerification />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/what-we-do" element={<WhatWeDo />} />
+          <Route path="/industries" element={<Industries />} />
+          <Route path="/who-we-are" element={<WhoWeAre />} />
+          <Route path="/insights" element={<Insights />} />
+
+          <Route path="/theme-preview" element={<ThemePreview />} />
+          <Route path="/projects" element={<ProjectPortfolio />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/our-services" element={<OurServicesPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+
+          <Route path="/dashboard/*" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </main>
+      {!isDashboard && <Footer />}
+      {!isDashboard && <FloatingSocials />}
+      {!isDashboard && <EnquiryPanel />}
+    </div>
+  );
+}
+
 export function App() {
   const appTree = (
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-            <Header />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/services" element={<ServicesPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
-                <Route path="/verify-otp" element={<OtpVerification />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/what-we-do" element={<WhatWeDo />} />
-                <Route path="/industries" element={<Industries />} />
-                <Route path="/who-we-are" element={<WhoWeAre />} />
-                <Route path="/insights" element={<Insights />} />
-
-                <Route path="/theme-preview" element={<ThemePreview />} />
-                <Route path="/projects" element={<ProjectPortfolio />} />
-                <Route path="/projects/:slug" element={<ProjectDetail />} />
-                <Route path="/our-services" element={<OurServicesPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/courses" element={<CoursesPage />} />
-
-                <Route path="/dashboard/*" element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                } />
-              </Routes>
-            </main>
-            <Footer />
-            <FloatingSocials />
-          </div>
+          <AppContent />
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

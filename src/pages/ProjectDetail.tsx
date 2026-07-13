@@ -31,6 +31,28 @@ const ProjectDetail: React.FC = () => {
     fetchDetail();
   }, [slug]);
 
+const handleShare = async () => {
+  const url = window.location.href;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: project?.title,
+        text: project?.description,
+        url,
+      });
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert("Project link copied to clipboard!");
+    }
+  } catch (error) {
+    console.log("Share cancelled");
+  }
+};
+
+
+
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800 flex items-center justify-center">
@@ -67,14 +89,16 @@ const ProjectDetail: React.FC = () => {
             </Link>
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => { /* placeholder wishlist */ }}
-                className={`p-2 rounded-xl bg-white/10 text-white/60 hover:bg-red-500 hover:text-white transition-colors`}
-              >
-                <HeartIcon className={`h-5 w-5`} />
-              </button>
-              <button className="p-2 rounded-xl bg-white/10 text-white/60 hover:bg-white/20 transition-colors">
+                   onClick={() => { /* placeholder wishlist */ }}
+                    className="p-2 rounded-xl bg-black/10 text-white/60 hover:text-red-500 transition-colors"
+                  >
+                   <HeartIcon className="h-5 w-5" />
+                  </button>
+              <button 
+               onClick={handleShare}
+              className="p-2 rounded-xl bg-white/10 text-white/60 hover:bg-black/20 transition-colors">
                 <ShareIcon className="h-5 w-5" />
-              </button>
+              </button> 
             </div>
           </div>
 

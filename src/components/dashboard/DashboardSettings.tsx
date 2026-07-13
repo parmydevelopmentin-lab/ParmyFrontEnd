@@ -12,19 +12,19 @@ const DashboardSettings = () => {
   const tabs = [{
     id: 'profile',
     label: 'Profile',
-    icon: UserIcon
+    icon: <UserIcon className="h-5 w-5" />
   }, {
     id: 'password',
     label: 'Password',
-    icon: LockIcon
+    icon: <LockIcon className="h-5 w-5" />
   }, {
     id: 'notifications',
     label: 'Notifications',
-    icon: BellIcon
+    icon: <BellIcon className="h-5 w-5" />
   }, {
     id: 'preferences',
     label: 'Preferences',
-    icon: GlobeIcon
+    icon: <GlobeIcon className="h-5 w-5" />
   }];
   return <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
@@ -73,7 +73,7 @@ const DashboardSettings = () => {
                     First name
                   </label>
                   <div className="mt-1">
-                    <input type="text" name="first-name" id="first-name" defaultValue={user?.name.split(' ')[0]} className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" name="first-name" id="first-name" defaultValue={user?.username ? user.username.split(' ')[0] : ''} className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                   </div>
                 </div>
                 <div className="sm:col-span-3">
@@ -81,7 +81,7 @@ const DashboardSettings = () => {
                     Last name
                   </label>
                   <div className="mt-1">
-                    <input type="text" name="last-name" id="last-name" defaultValue={user?.name.split(' ')[1] || ''} className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" name="last-name" id="last-name" defaultValue={user?.username ? (user.username.split(' ')[1] || '') : ''} className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" />
                   </div>
                 </div>
                 <div className="sm:col-span-4">

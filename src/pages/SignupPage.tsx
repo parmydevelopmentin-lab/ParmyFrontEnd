@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { UserIcon, LockIcon, MailIcon, EyeIcon, EyeOffIcon, CheckCircleIcon, AlertCircleIcon, ArrowRightIcon } from 'lucide-react';
-// TODO: Import GoogleLogin when OAuth is configured
-// import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,7 +14,7 @@ const SignupPage = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const {
     signup,
-    // signupWithGoogle, // TODO: Uncomment when Google OAuth is configured
+    signupWithGoogle,
     isAuthenticated,
     needsOtpVerification
   } = useAuth();

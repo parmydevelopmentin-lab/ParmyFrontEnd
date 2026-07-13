@@ -280,3 +280,14 @@ export interface PurchaseResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+// Gallery Types
+export interface GalleryResponse {
+  id: string;
+  src: string;
+  thumb: string;
+  title: string;
+  category: string;
+  description: string;
+  createdAt: string;
+}

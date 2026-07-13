@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
+import { useLayoutEffect } from "react";
 import { MailIcon, PhoneIcon, MapPinIcon, GlobeIcon, CheckCircleIcon, ChevronDownIcon, ArrowRightIcon, ClockIcon, CalendarIcon, MessageSquare as MessageSquareIcon, Users as UsersIcon, Building as BuildingIcon, Globe as GlobeAltIcon, AlertCircleIcon } from 'lucide-react';
 import { contactApi, ContactFormData, ApiError } from '../services/api';
 const ContactPage = () => {
+  const location = useLocation();
+
+  useLayoutEffect(() => {
+    if (location.hash === "#form") {
+      document.getElementById("form")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -32,7 +47,7 @@ const ContactPage = () => {
         lat: 17.4435,
         lng: 78.3772
       },
-      image: 'https://images.unsplash.com/photo-1563014959-7b9017aebada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+      image: '/office.png'
     }
   };
 
@@ -128,141 +143,6 @@ const ContactPage = () => {
       </div>
     </div>
 
-    {/* Office Location */}
-    {/* <div id="locations" className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold text-white">Our Office</h2>
-        <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-300">
-          Strategic locations to serve clients around the world with local
-          expertise
-        </p>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1">
-          <div className="bg-surface-dark-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-neutral-700/30 overflow-hidden h-full">
-            <div className="p-6">
-              <h3 className="text-lg font-medium text-white mb-6">
-                Select Location
-              </h3>
-              <div className="space-y-4">
-                {Object.entries(locations).map(([key, location]) => <button key={key} onClick={() => setActiveLocation(key as keyof typeof locations)} className={`flex items-center w-full p-4 rounded-xl text-left transition-all duration-300 group ${activeLocation === key ? 'bg-primary-500/20 border-primary-500/50 border shadow-primary backdrop-blur-sm' : 'hover:bg-surface-dark-tertiary/50 border border-transparent'}`}>
-                  <div className={`flex-shrink-0 h-12 w-12 rounded-xl flex items-center justify-center transition-all duration-300 ${activeLocation === key ? 'bg-primary-500 text-white shadow-primary' : 'bg-neutral-700 text-neutral-300 group-hover:bg-neutral-600'}`}>
-                    <MapPinIcon className="h-6 w-6" />
-                  </div>
-                  <div className="ml-4">
-                    <div className="font-semibold text-white">
-                      {location.name}
-                    </div>
-                    <div className="text-sm text-neutral-400">
-                      {location.country}
-                    </div>
-                  </div>
-                  {activeLocation === key && <div className="ml-auto">
-                    <ArrowRightIcon className="h-5 w-5 text-primary-400" />
-                  </div>}
-                </button>)}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="lg:col-span-2">
-          <div className="bg-surface-dark-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-neutral-700/30 overflow-hidden">
-            <div className="h-64 overflow-hidden">
-              <img src={selectedLocation.image} alt={`${selectedLocation.name} office`} className="w-full h-full object-cover" />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-white">
-                    {selectedLocation.name}
-                  </h3>
-                  <p className="text-gray-400">{selectedLocation.country}</p>
-                </div>
-                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary-500/20 text-primary-300 border border-primary-500/30">
-                  {selectedLocation.teamSize}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div className="space-y-4">
-                  <div className="flex items-start group">
-                    <MapPinIcon className="h-5 w-5 text-primary-400 flex-shrink-0 mt-0.5 group-hover:text-primary-300 transition-colors" />
-                    <span className="ml-3 text-neutral-300 group-hover:text-white transition-colors">
-                      {selectedLocation.address}
-                    </span>
-                  </div>
-                  <div className="flex items-center group">
-                    <PhoneIcon className="h-5 w-5 text-secondary-400 flex-shrink-0 group-hover:text-secondary-300 transition-colors" />
-                    <span className="ml-3 text-neutral-300 group-hover:text-white transition-colors">
-                      {selectedLocation.phone}
-                    </span>
-                  </div>
-                  <div className="flex items-center group">
-                    <MailIcon className="h-5 w-5 text-accent-400 flex-shrink-0 group-hover:text-accent-300 transition-colors" />
-                    <span className="ml-3 text-neutral-300 group-hover:text-white transition-colors">
-                      {selectedLocation.email}
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <GlobeIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="ml-3 text-gray-300">
-                      {selectedLocation.timezone}
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <ClockIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="ml-3 text-gray-300">
-                      {selectedLocation.workingHours}
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <UsersIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="ml-3 text-gray-300">
-                      {selectedLocation.teamSize} professionals
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
-                  Specializations
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedLocation.specializations.map((specialization: string, index: number) => <span key={index} className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary-500/20 text-primary-300 border border-primary-500/30">
-                    {specialization}
-                  </span>)}
-                </div>
-              </div>
-              <div className="relative h-64 rounded-lg overflow-hidden border border-neutral-700/30">
-                <iframe
-                  title="Parmy Technologies Office Location"
-                  src="https://maps.google.com/maps?q=Parmy+Technologies+pvt+ltd,16-126,Sai+Baba+Temple+Rd,Dilsukhnagar,Hyderabad,Telangana+500060&output=embed&z=17"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 w-full h-full"
-                />
-                <a
-                  href="https://maps.app.goo.gl/ZwYjreiTp5fpUrLd7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-gray-900/90 hover:bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/10 transition-colors"
-                >
-                  <MapPinIcon className="h-3.5 w-3.5 text-primary-400" />
-                  Open in Google Maps
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
-
-    {/* Contact Form Section */}
     <div id="form" className="bg-gray-800 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
@@ -538,6 +418,109 @@ const ContactPage = () => {
         </div>
       </div>
     </div>
-  </div>;
+      <div id="locations" className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white">Our Office</h2>
+          <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-300">
+            Strategic locations to serve clients around the world with local expertise
+          </p>
+        </div>
+        <div className="grid gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-1">
+            <div className="bg-surface-dark-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-neutral-700/30 overflow-hidden h-full">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-white mb-6">Select Location</h3>
+                <div className="space-y-4">
+                  {Object.entries(locations).map(([key, location]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setActiveLocation(key as keyof typeof locations)}
+                      className={`flex items-center w-full p-4 rounded-xl text-left transition-all duration-300 ${activeLocation === key ? 'bg-primary-500/20 border-primary-500/50 border shadow-primary backdrop-blur-sm' : 'hover:bg-surface-dark-tertiary/50 border border-transparent'}`}>
+                      <div className={`flex-shrink-0 h-12 w-12 rounded-xl flex items-center justify-center transition-all duration-300 ${activeLocation === key ? 'bg-primary-500 text-white shadow-primary' : 'bg-neutral-700 text-neutral-300'}`}>
+                        <MapPinIcon className="h-6 w-6" />
+                      </div>
+                      <div className="ml-4">
+                        <div className="font-semibold text-white">{location.name}</div>
+                        <div className="text-sm text-neutral-400">{location.country}</div>
+                      </div>
+                      {activeLocation === key && (
+                        <ArrowRightIcon className="ml-auto h-5 w-5 text-primary-400" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-surface-dark-secondary/80 backdrop-blur-md rounded-2xl shadow-xl border border-neutral-700/30 overflow-hidden">
+              <div className="h-64 overflow-hidden">
+                <img
+                  src={locations[activeLocation].image}
+                  alt={`${locations[activeLocation].name} office`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">{locations[activeLocation].name}</h3>
+                    <p className="text-gray-400">{locations[activeLocation].country}</p>
+                  </div>
+                  <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary-500/20 text-primary-300 border border-primary-500/30">
+                    {locations[activeLocation].teamSize}
+                  </span>
+                </div>
+                <div className="grid gap-6 md:grid-cols-2 mb-6">
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3 text-neutral-300">
+                      <MapPinIcon className="h-5 w-5 text-primary-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].address}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-neutral-300">
+                      <PhoneIcon className="h-5 w-5 text-secondary-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].phone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-neutral-300">
+                      <MailIcon className="h-5 w-5 text-accent-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].email}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-neutral-300">
+                      <GlobeIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].timezone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-neutral-300">
+                      <ClockIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].workingHours}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-neutral-300">
+                      <UsersIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
+                      <span>{locations[activeLocation].teamSize} professionals</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative h-64 rounded-2xl overflow-hidden border border-neutral-700/30">
+                  <iframe
+                    title="Parmy Technologies Office Location"
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(locations[activeLocation].address)}&output=embed&z=17`}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
 };
 export default ContactPage;

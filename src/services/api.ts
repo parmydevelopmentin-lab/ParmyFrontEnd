@@ -5,7 +5,7 @@ import {
   RegisterRequest,
   LoginRequest,
   OTPRequest,
-  // GoogleAuthRequest, // TODO: Uncomment when Google OAuth is configured
+  GoogleAuthRequest,
   ForgotPasswordRequest,
   VerifyResetCodeRequest,
   ResetPasswordRequest,
@@ -21,10 +21,13 @@ import {
   OfferStatus,
   ErrorResponse
 } from '../types/api';
-import type { ProjectRequest, ProjectResponse, PurchaseResponse } from '../types/api';
+import type { ProjectRequest, ProjectResponse, PurchaseResponse, GalleryResponse } from '../types/api';
 
-// Configure API base URL from Vite env var with a safe fallback for local development
-const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:8080';
+// Configure API base URL from Vite env var with a safe fallback for local development or hosting
+const DEFAULT_API_BASE_URL = typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+  ? window.location.origin
+  : 'http://localhost:8080';
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;
 
 // Configure axios instance
 const api = axios.create({
@@ -109,36 +112,34 @@ export const authApi = {
   },
 
   // Login with email and password
-  login: async (request: LoginRequest): Promise<ApiResponse<string>> => {
+  login: async (request: LoginRequest): Promise<ApiResponse<AuthResponse>> => {
     try {
-      const response: AxiosResponse<ApiResponse<string>> = await api.post('/api/auth/login', request);
+      const response: AxiosResponse<ApiResponse<AuthResponse>> = await api.post('/api/auth/login', request);
       return response.data;
     } catch (error) {
       return handleApiError(error as AxiosError<ErrorResponse>);
     }
   },
 
-  // TODO: Uncomment when Google OAuth is configured
   // Register with Google OAuth
-  // registerWithGoogle: async (request: GoogleAuthRequest): Promise<ApiResponse<string>> => {
-  //   try {
-  //     const response: AxiosResponse<ApiResponse<string>> = await api.post('/api/auth/google/register', request);
-  //     return response.data;
-  //   } catch (error) {
-  //     return handleApiError(error as AxiosError<ErrorResponse>);
-  //   }
-  // },
+  registerWithGoogle: async (request: GoogleAuthRequest): Promise<ApiResponse<string>> => {
+    try {
+      const response: AxiosResponse<ApiResponse<string>> = await api.post('/api/auth/google/register', request);
+      return response.data;
+    } catch (error) {
+      return handleApiError(error as AxiosError<ErrorResponse>);
+    }
+  },
 
-  // TODO: Uncomment when Google OAuth is configured
   // Login with Google OAuth
-  // loginWithGoogle: async (request: GoogleAuthRequest): Promise<ApiResponse<string>> => {
-  //   try {
-  //     const response: AxiosResponse<ApiResponse<string>> = await api.post('/api/auth/google/login', request);
-  //     return response.data;
-  //   } catch (error) {
-  //     return handleApiError(error as AxiosError<ErrorResponse>);
-  //   }
-  // },
+  loginWithGoogle: async (request: GoogleAuthRequest): Promise<ApiResponse<AuthResponse>> => {
+    try {
+      const response: AxiosResponse<ApiResponse<AuthResponse>> = await api.post('/api/auth/google/login', request);
+      return response.data;
+    } catch (error) {
+      return handleApiError(error as AxiosError<ErrorResponse>);
+    }
+  },
 
   // Verify OTP
   verifyOTP: async (request: OTPRequest): Promise<ApiResponse<AuthResponse>> => {
@@ -389,17 +390,13 @@ export const invoiceApi = {
 
   // Download invoice PDF
   downloadInvoicePDF: async (id: string): Promise<Blob> => {
-    try {
-      const response = await api.get(`/api/invoices/${id}/download`, {
-        responseType: 'blob',
-        headers: {
-          'Accept': 'application/pdf'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await api.get(`/api/invoices/${id}/download`, {
+      responseType: 'blob',
+      headers: {
+        'Accept': 'application/pdf'
+      }
+    });
+    return response.data;
   },
 
   // Resend invoice PDF
@@ -762,6 +759,43 @@ export const purchasesApi = {
   adminUpdateStatus: async (id: string, status: string): Promise<ApiResponse<any>> => {
     try {
       const response = await api.put(`/api/admin/purchases/${id}/status?status=${status}`);
+      return response.data;
+    } catch (error) {
+      return handleApiError(error as AxiosError<ErrorResponse>);
+    }
+  }
+};
+
+// Gallery API methods
+export const galleryApi = {
+  list: async (): Promise<ApiResponse<GalleryResponse[]>> => {
+    try {
+      const response = await api.get('/api/gallery');
+      return response.data;
+    } catch (error) {
+      return handleApiError(error as AxiosError<ErrorResponse>);
+    }
+  },
+  create: async (file: File, title: string, category: string, description: string): Promise<ApiResponse<GalleryResponse>> => {
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      form.append('title', title);
+      form.append('category', category);
+      form.append('description', description);
+      const response = await api.post('/api/gallery', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      return handleApiError(error as AxiosError<ErrorResponse>);
+    }
+  },
+  delete: async (id: string): Promise<ApiResponse<string>> => {
+    try {
+      const response = await api.delete(`/api/gallery/${id}`);
       return response.data;
     } catch (error) {
       return handleApiError(error as AxiosError<ErrorResponse>);
