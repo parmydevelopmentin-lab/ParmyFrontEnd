@@ -550,7 +550,7 @@ const DashboardProjects = () => {
   const [abstractFile, setAbstractFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  const categories = ['All', 'Blockchain', 'AI/ML', 'E-Commerce', 'IoT', 'FinTech', 'Analytics', 'Mobile Apps', 'DevOps'];
+  const categories = ['All', 'Blockchain', 'AI/ML', 'E-Commerce', 'IoT', 'FinTech', 'Analytics', 'Mobile Apps', 'DevOps', 'Software Development', 'Cloud Services', 'SEO Services'];
 
   // Fetch projects based on user role
   useEffect(() => {

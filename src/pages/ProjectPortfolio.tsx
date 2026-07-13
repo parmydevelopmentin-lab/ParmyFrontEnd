@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Grid, List, ExternalLink, Calendar } from 'lucide-react';
 import { projectsApi } from '../services/api';
@@ -14,7 +14,7 @@ const ProjectPortfolio: React.FC = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filteredProjects, setFilteredProjects] = useState<ProjectResponse[]>(projects);
 
-  const categories = ['All', 'Blockchain', 'AI/ML', 'E-Commerce', 'IoT', 'FinTech', 'Analytics', 'Mobile Apps', 'DevOps'];
+  const categories = ['All', 'Blockchain', 'AI/ML', 'E-Commerce', 'IoT', 'FinTech', 'Analytics', 'Mobile Apps', 'DevOps', 'Software Development', 'Cloud Services', 'SEO Services'];
 
   useEffect(() => {
     const fetchProjects = async () => {
