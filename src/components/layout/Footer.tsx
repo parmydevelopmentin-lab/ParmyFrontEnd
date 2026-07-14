@@ -41,43 +41,43 @@ const Footer = () => {
           <h4 className="text-lg font-semibold mb-4">Services</h4>
           <ul className="space-y-2">
             <li>
-              <Link to="/what-we-do#data-engineering" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/data-engineering" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Data Engineering</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do#web-development" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/web-development" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Web Development</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do#software-development" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/software-development" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Software Development</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do#cybersecurity" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/cybersecurity" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Cybersecurity Solutions</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do#data-analytics" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/data-analytics" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Data Analytics</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do#digital-methodology" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services/digital-business-methodology" className="text-primary-200 hover:text-secondary-300 transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>Digital Business Methodology</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-accent-400" />
               </Link>
             </li>
             <li>
-              <Link to="/what-we-do" className="text-primary-400 hover:text-primary-300 font-semibold transition-all duration-300 hover:translate-x-1 flex items-center group">
+              <Link to="/services" className="text-primary-400 hover:text-primary-300 font-semibold transition-all duration-300 hover:translate-x-1 flex items-center group">
                 <span>View All Services</span>
                 <ArrowRightIcon className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>

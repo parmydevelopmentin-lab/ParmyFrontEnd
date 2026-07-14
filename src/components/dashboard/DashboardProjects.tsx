@@ -3,6 +3,7 @@ import { Search, Grid, List, Plus, Pencil, Trash2, X, Loader2, ArrowLeftIcon, He
 import { projectsApi, purchasesApi } from '../../services/api';
 import type { ProjectResponse, ProjectRequest, ApiResponse } from '../../types/api';
 import { useAuth } from '../../context/AuthContext';
+import { getImageUrl, getYoutubeId } from '../../utils/projectUtils';
 
 // Admin Form Modal Component
 const emptyForm: ProjectRequest = { title: '', shortDescription: '', description: '', price: 0, currency: 'INR', category: '', tags: [], thumbnailUrl: '', active: true };
@@ -104,8 +105,28 @@ const AdminFormModal: React.FC<{
             className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={form.thumbnailUrl || ''}
             onChange={e => setForm(prev => ({ ...prev, thumbnailUrl: e.target.value }))}
-            placeholder="https://example.com/image.jpg"
+            placeholder="YouTube link, Video ID, or direct image URL"
           />
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Accepts: YouTube video URLs, 11-char Video IDs (e.g. <code>dQw4w9WgXcQ</code>), or standard image URLs.
+          </p>
+          <div className="mt-3">
+            <span className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Live Thumbnail Preview</span>
+            <div className="relative w-full h-36 bg-gray-100 dark:bg-gray-900/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+              {form.thumbnailUrl ? (
+                <img
+                  src={getImageUrl(form.thumbnailUrl)}
+                  alt="Live Preview"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/DigiDefense.png';
+                  }}
+                />
+              ) : (
+                <span className="text-xs text-gray-400 dark:text-gray-500 font-light">No image URL specified</span>
+              )}
+            </div>
+          </div>
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-1 text-black dark:text-white">
@@ -516,7 +537,7 @@ const Thumb: React.FC<{
     <div className={`relative overflow-hidden ${wrapperClass}`}>
       {!loaded && <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse" />}
       <img
-        src={errored ? fallback : (src || fallback)}
+        src={errored ? fallback : getImageUrl(src)}
         alt={alt}
         className={`${imgClass} ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
         onLoad={() => setLoaded(true)}
@@ -876,6 +897,7 @@ const DashboardProjects = () => {
 
   // User View - Project Details
   if (selectedProject && !showPurchaseModal) {
+    const youtubeId = getYoutubeId(selectedProject.thumbnailUrl);
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
@@ -942,13 +964,28 @@ const DashboardProjects = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => openPurchaseModal(selectedProject)}
-              className="w-full bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-semibold flex items-center justify-center"
-            >
-              <ShoppingCart className="h-5 w-5 mr-2" />
-              Purchase Project
-            </button>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => openPurchaseModal(selectedProject)}
+                className="w-full bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-semibold flex items-center justify-center"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                Purchase Project
+              </button>
+              {youtubeId && (
+                <a
+                  href={`https://www.youtube.com/watch?v=${youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl transition-colors font-semibold flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.107C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.388.511a3.002 3.002 0 0 0-2.11 2.107C0 8.053 0 12 0 12s0 3.947.502 5.837a3.003 3.003 0 0 0 2.11 2.107c1.883.511 9.388.511 9.388.511s7.505 0 9.388-.511a3.002 3.002 0 0 0 2.11-2.107c.502-1.89.502-5.837.502-5.837s0-3.947-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Watch Demo Video
+                </a>
+              )}
+            </div>
 
             <div className="mt-6 pt-6 border-t border-gray-200">
               <h3 className="font-semibold mb-2">Description</h3>

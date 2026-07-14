@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import { Search, Filter, Grid, List, ExternalLink, Calendar } from 'lucide-react';
 import { projectsApi } from '../services/api';
 import type { ProjectResponse } from '../types/api';
+import { getImageUrl } from '../utils/projectUtils';
 
 const ProjectPortfolio: React.FC = () => {
+  const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:8080';
+
+
   const [projects, setProjects] = useState<ProjectResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -59,7 +63,7 @@ const ProjectPortfolio: React.FC = () => {
     <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:border-secondary-400/50 transition-all duration-300 hover:transform hover:scale-105">
       <div className="relative overflow-hidden rounded-xl mb-4">
         <img
-          src={project.thumbnailUrl || '/DigiDefense.png'}
+          src={getImageUrl(project.thumbnailUrl)}
           alt={project.title}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
         />
@@ -94,7 +98,7 @@ const ProjectPortfolio: React.FC = () => {
       <div className="flex gap-6">
         <div className="flex-shrink-0">
           <img
-            src={project.thumbnailUrl || '/DigiDefense.png'}
+            src={getImageUrl(project.thumbnailUrl)}
             alt={project.title}
             className="w-32 h-24 object-cover rounded-xl"
           />

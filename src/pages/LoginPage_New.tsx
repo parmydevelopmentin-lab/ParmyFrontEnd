@@ -11,14 +11,14 @@ const LoginPage: React.FC = () => {
   const [showDemo, setShowDemo] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
-  const { 
-    login, 
-    loginWithGoogle, 
-    isAuthenticated, 
-    needsOtpVerification 
+
+  const {
+    login,
+    loginWithGoogle,
+    isAuthenticated,
+    needsOtpVerification
   } = useAuth();
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
@@ -72,7 +72,7 @@ const LoginPage: React.FC = () => {
     <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl animate-shimmer"></div>
     <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl animate-float"></div>
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary-400/5 rounded-full blur-3xl animate-royal-pulse"></div>
-    
+
     <div className="relative sm:mx-auto sm:w-full sm:max-w-md">
       <div className="flex justify-center">
         <div className="h-20 w-20 bg-gradient-to-r from-secondary-600 to-primary-600 rounded-full flex items-center justify-center shadow-royal-glow">
@@ -203,7 +203,7 @@ const LoginPage: React.FC = () => {
               </div>
             </form>
 
-            {/* Demo Credentials */}
+            {/* Demo Credentials
             {showDemo && (
               <div className="mt-6 p-4 bg-white/5 border border-white/20 text-white/80 px-4 py-3 rounded-xl backdrop-blur-sm">
                 <h4 className="text-sm font-semibold text-white/90 mb-3">Demo Accounts:</h4>
@@ -231,7 +231,7 @@ const LoginPage: React.FC = () => {
                   Show demo credentials
                 </button>
               </div>
-            )}
+            )} */}
 
             <div className="mt-8">
               <div className="relative">
@@ -259,19 +259,19 @@ const LoginPage: React.FC = () => {
                     }}
                   />
                 </div>
-                
-                {/* Demo Account Button */}
-                <button 
-                  type="button" 
-                  onClick={() => setShowDemo(!showDemo)} 
+
+                {/* Demo Account Button
+                <button
+                  type="button"
+                  onClick={() => setShowDemo(!showDemo)}
                   className="w-full inline-flex justify-center py-3 px-4 border border-white/20 rounded-xl shadow-sm bg-white/5 backdrop-blur-sm text-sm font-semibold text-white/80 hover:bg-white/10 transition-colors"
                 >
                   <Shield className="h-5 w-5 text-secondary-300 mr-2" />
                   <span>Use demo account</span>
-                </button>
+                </button> */}
               </div>
             </div>
-            
+
             <div className="mt-8">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -291,7 +291,7 @@ const LoginPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         <p className="mt-8 text-center text-xs text-white/60 leading-relaxed">
           By signing in, you agree to our{' '}
           <a href="#" className="font-semibold text-secondary-300 hover:text-secondary-200 transition-colors">

@@ -4,8 +4,12 @@ import { CalendarIcon, ArrowLeftIcon, HeartIcon, ShareIcon } from 'lucide-react'
 import { projectsApi, purchasesApi } from '../services/api';
 import type { ProjectResponse } from '../types/api';
 import { useAuth } from '../context/AuthContext';
+import { getImageUrl, getYoutubeId } from '../utils/projectUtils';
 
 const ProjectDetail: React.FC = () => {
+  const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:8080';
+
+
   const { slug } = useParams<{ slug: string }>();
   const [project, setProject] = useState<ProjectResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -74,6 +78,8 @@ const handleShare = async () => {
     );
   }
 
+  const youtubeId = getYoutubeId(project.thumbnailUrl);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-primary-800">
       {/* Header */}
@@ -107,7 +113,7 @@ const handleShare = async () => {
             <div className="lg:col-span-2">
               <div className="relative rounded-2xl overflow-hidden">
                 <img
-                  src={project.thumbnailUrl || '/DigiDefense.png'}
+                  src={getImageUrl(project.thumbnailUrl)}
                   alt={project.title}
                   className="w-full h-96 object-cover"
                 />
@@ -151,6 +157,19 @@ const handleShare = async () => {
                 >
                   Buy Now
                 </button>
+                {youtubeId && (
+                  <a
+                    href={`https://www.youtube.com/watch?v=${youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.107C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.388.511a3.002 3.002 0 0 0-2.11 2.107C0 8.053 0 12 0 12s0 3.947.502 5.837a3.003 3.003 0 0 0 2.11 2.107c1.883.511 9.388.511 9.388.511s7.505 0 9.388-.511a3.002 3.002 0 0 0 2.11-2.107c.502-1.89.502-5.837.502-5.837s0-3.947-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    Watch Demo Video
+                  </a>
+                )}
                 <div className="grid grid-cols-2 gap-3"></div>
               </div>
 

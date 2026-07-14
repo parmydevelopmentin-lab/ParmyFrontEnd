@@ -1,7 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { ArrowUpRight, ArrowDownRight, Users, FileText, Clock, Activity, Calendar, BarChart, TrendingUp, AlertCircle, CheckCircle, BellRing } from 'lucide-react';
 import WelcomeMessage from './WelcomeMessage';
+
 const DashboardOverview = () => {
+  const { isAdmin } = useAuth();
+  
   return <div>
       <WelcomeMessage />
       {/* Stats Cards */}
@@ -28,9 +33,9 @@ const DashboardOverview = () => {
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 px-5 py-3">
             <div className="text-sm">
-              <a href="#" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
+              <Link to="/dashboard/projects" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
                 View all
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -56,9 +61,9 @@ const DashboardOverview = () => {
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 px-5 py-3">
             <div className="text-sm">
-              <a href="#" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
+              <Link to="/dashboard/projects" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
                 View all
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -84,9 +89,9 @@ const DashboardOverview = () => {
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 px-5 py-3">
             <div className="text-sm">
-              <a href="#" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
+              <Link to={isAdmin ? "/dashboard/expenses/analytics" : "/dashboard"} className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
                 View report
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -117,9 +122,9 @@ const DashboardOverview = () => {
           </div>
           <div className="bg-gray-50 dark:bg-gray-700 px-5 py-3">
             <div className="text-sm">
-              <a href="#" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
+              <Link to="/dashboard/settings" className="font-medium text-green-600 dark:text-green-400 hover:text-green-500 dark:hover:text-green-300">
                 View details
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -216,9 +221,9 @@ const DashboardOverview = () => {
               </li>
             </ul>
             <div className="mt-6">
-              <a href="#" className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <Link to="/dashboard" className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 View all activity
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -297,9 +302,9 @@ const DashboardOverview = () => {
               </li>
             </ul>
             <div className="mt-6">
-              <a href="#" className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <Link to="/dashboard/projects" className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 View all tasks
-              </a>
+              </Link>
             </div>
           </div>
         </div>
